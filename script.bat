@@ -116,7 +116,7 @@ echo (This window must remain open while you play)
 
 REM === Monitor the game and restore settings when it closes ===
 :MONITOR_LOOP
-timeout /t 5 /nobreak >nul
+timeout /t 1 /nobreak >nul
 tasklist /FI "IMAGENAME eq %GAME_EXE%" 2>NUL | find /I /N "%GAME_EXE%" >NUL
 if "%ERRORLEVEL%"=="0" (
     goto :MONITOR_LOOP
