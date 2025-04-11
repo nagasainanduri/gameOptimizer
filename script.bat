@@ -11,9 +11,8 @@ if %errorlevel% neq 0 (
 )
 
 REM === Configuration Settings ===
-set "GAME_PATH=path_of_your_exe_file"
-set "GAME_EXE=name_of_your_exe"
-set "PRIORITY=256"
+set "GAME_PATH=G:exe_path"
+set "GAME_EXE=exe_name"
 
 REM === Check if game is already running ===
 tasklist /FI "IMAGENAME eq %GAME_EXE%" 2>NUL | find /I /N "%GAME_EXE%" >NUL
@@ -63,9 +62,9 @@ if not defined PID (
     exit /b 1
 )
 
-REM === Set process priority ===
+REM === Set process priority using PowerShell ===
 echo Setting %GAME_EXE% (PID: !PID!) to high priority...
-wmic process where processid=!PID! CALL setpriority %PRIORITY% >nul 2>&1
+powershell -Command "& {try {Get-Process -Id !PID! | ForEach-Object { $_.PriorityClass = [System.Diagnostics.ProcessPriorityClass]::High }} catch { Write-Error 'Failed to set priority' }}"
 if %ERRORLEVEL% neq 0 (
     echo Warning: Failed to set process priority. Continuing with other optimizations...
 )
@@ -77,7 +76,7 @@ REM === Clear RAM cache using a more reliable method ===
 echo Clearing system cache...
 powershell -Command "& { Add-Type -AssemblyName 'System.Runtime.InteropServices'; [System.Runtime.InteropServices.Marshal]::FreeUnusedMemory(); }" >nul 2>&1
 
-REM === Close known resource-intensive background processes, you can add more apps and services in this !! ===
+REM === Close known resource-intensive background processes ===
 echo Closing unnecessary background processes...
 for %%p in (
     "OneDrive.exe"
