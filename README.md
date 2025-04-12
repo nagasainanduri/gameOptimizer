@@ -104,7 +104,11 @@ You can customize the script by:
 - **"This script requires administrator privileges"**: Right-click and select "Run as administrator"
 - **"Could not find the game process"**: Ensure the GAME_EXE variable matches exactly with what appears in Task Manager
 
+## Contribution
+
+- **Feel free to fork this repository to make any changes**
+
 ## Disclaimer
 
 This script modifies system settings and forcibly terminates processes. Use at your own risk. The author is not responsible for any potential data loss or system instability that may occur.
-Feel free to fork this repository to make any changes !!
+
