@@ -11,8 +11,8 @@ if %errorlevel% neq 0 (
 )
 
 REM === Configuration Settings ===
-set "GAME_PATH=G:exe_path"
-set "GAME_EXE=exe_name"
+set "GAME_PATH=G:\Games\Wuthering Waves\Wuthering Waves Game\Wuthering Waves.exe"
+set "GAME_EXE=Wuthering Waves.exe"
 
 REM === Check if game is already running ===
 tasklist /FI "IMAGENAME eq %GAME_EXE%" 2>NUL | find /I /N "%GAME_EXE%" >NUL
@@ -46,6 +46,11 @@ REM === Start the game ===
 echo Starting %GAME_EXE% with optimized settings...
 start "" "%GAME_PATH%"
 timeout /t 3 /nobreak >nul
+
+REM === Capture start time ===
+for /f "tokens=1-4 delims=:.," %%a in ("%time%") do (
+    set /a "start_hour=%%a, start_minute=%%b, start_second=%%c"
+)
 
 :OPTIMIZE
 REM === Get the Process ID using a more robust method ===
@@ -115,11 +120,19 @@ echo (This window must remain open while you play)
 
 REM === Monitor the game and restore settings when it closes ===
 :MONITOR_LOOP
-timeout /t 1 /nobreak >nul
+timeout /t 0 /nobreak >nul
 tasklist /FI "IMAGENAME eq %GAME_EXE%" 2>NUL | find /I /N "%GAME_EXE%" >NUL
 if "%ERRORLEVEL%"=="0" (
     goto :MONITOR_LOOP
 ) else (
+    REM === Calculate elapsed time ===
+    for /f "tokens=1-4 delims=:.," %%a in ("%time%") do (
+        set /a "current_hour=%%a, current_minute=%%b, current_second=%%c"
+    )
+    set /a "elapsed_seconds=((current_hour*3600 + current_minute*60 + current_second) - (start_hour*3600 + start_minute*60 + start_second))"
+    set /a "elapsed_hours=elapsed_seconds/3600, elapsed_seconds%%=3600"
+    set /a "elapsed_minutes=elapsed_seconds/60, elapsed_seconds%%=60"
+    echo Total Time Played: !elapsed_hours!h !elapsed_minutes!m !elapsed_seconds!s
     goto :RESTORE_SETTINGS
 )
 
