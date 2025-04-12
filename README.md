@@ -107,3 +107,4 @@ You can customize the script by:
 ## Disclaimer
 
 This script modifies system settings and forcibly terminates processes. Use at your own risk. The author is not responsible for any potential data loss or system instability that may occur.
+Feel free to fork this repository to make any changes !!
