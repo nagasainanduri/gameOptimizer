@@ -11,8 +11,8 @@ if %errorlevel% neq 0 (
 )
 
 REM === Configuration Settings ===
-set "GAME_PATH=G:\Games\Wuthering Waves\Wuthering Waves Game\Wuthering Waves.exe"
-set "GAME_EXE=Wuthering Waves.exe"
+set "GAME_PATH=your_exe_path"
+set "GAME_EXE=exe_name"
 
 REM === Check if game is already running ===
 tasklist /FI "IMAGENAME eq %GAME_EXE%" 2>NUL | find /I /N "%GAME_EXE%" >NUL
